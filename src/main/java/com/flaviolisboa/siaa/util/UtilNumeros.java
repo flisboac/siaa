@@ -50,4 +50,11 @@ public class UtilNumeros {
     public static BigInteger normalizarParaBigInteger(Number numero) {
         return normalizarParaBigInteger(numero, null);
     }
+    
+    public static int intValueExact(BigInteger bigint) {
+        if (bigint == null || bigint.bitLength() > 31) {
+            throw new ArithmeticException();
+        }
+        return bigint.intValue();
+    }
 }

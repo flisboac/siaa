@@ -52,9 +52,9 @@ public class PaginaSimples implements Pagina {
         }
 
         try {
-            this.totalPaginas = valor.intValueExact();
-            this.divisaoTamanhoPagina = divisao[0].intValueExact();
-            this.divisaoTamanhoPaginaFinal = divisao[1].intValueExact();
+            this.totalPaginas = UtilNumeros.intValueExact(valor);
+            this.divisaoTamanhoPagina = UtilNumeros.intValueExact(divisao[0]);
+            this.divisaoTamanhoPaginaFinal = UtilNumeros.intValueExact(divisao[1]);
             if (this.divisaoTamanhoPaginaFinal == 0) {
                 this.divisaoTamanhoPaginaFinal = this.divisaoTamanhoPagina;
             }

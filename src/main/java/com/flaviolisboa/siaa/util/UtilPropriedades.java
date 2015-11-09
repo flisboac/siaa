@@ -27,7 +27,7 @@ public class UtilPropriedades {
                     for (Method metodo : metodos) {
                         
                         if (metodo.getName().equals(nomeMetodo)
-                                && metodo.getParameterCount() == 0
+                                && metodo.getParameterTypes().length == 0
                                 && metodo.getReturnType().isAssignableFrom(String.class)) {
                             try {
                                 nomePropriedade = (String) metodo.invoke(propriedade);

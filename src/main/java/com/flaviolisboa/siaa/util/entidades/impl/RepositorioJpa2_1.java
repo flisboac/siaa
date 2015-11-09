@@ -1,6 +1,7 @@
 
 package com.flaviolisboa.siaa.util.entidades.impl;
 
+import com.flaviolisboa.siaa.util.UtilNumeros;
 import com.flaviolisboa.siaa.util.entidades.Entidade;
 import com.flaviolisboa.siaa.util.entidades.NavegacaoPagina;
 import com.flaviolisboa.siaa.util.entidades.Ordenacao;
@@ -199,7 +200,7 @@ public class RepositorioJpa2_1<T extends Entidade> implements Repositorio<T> {
             q.orderBy(orders);
             
             TypedQuery<T> query = em.createQuery(q);
-            query.setFirstResult(paginaJpa.getIndiceInicialPesquisa().intValueExact());
+            query.setFirstResult(UtilNumeros.intValueExact(paginaJpa.getIndiceInicialPesquisa()));
             query.setMaxResults(paginaJpa.getTamanhoPagina());
             List<T> retorno = query.getResultList();
             return retorno;
