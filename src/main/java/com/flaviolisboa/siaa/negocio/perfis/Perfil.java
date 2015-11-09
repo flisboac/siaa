@@ -9,6 +9,8 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Convert;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "tipo")
 @GroupSequence({ Identificacao.class, Identidade.class, Integridade.class })
 @SequenceGenerator(name = "sq_perfil", sequenceName = "sq_perfil", initialValue = 1, allocationSize = 1)
 public class Perfil implements Entidade, Serializable {

@@ -8,6 +8,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Identificacao;
 import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -46,6 +47,7 @@ public class Autenticacao implements Entidade, Serializable {
     private Pessoa pessoa;
     
     @NotNull(message = "Deve ser especificado um tipo para o método de autenticação.", groups = Identidade.class)
+    @Convert(converter = ConversorTipoAutenticacaoJpa.class)
     @Column(name = "tipo", nullable = false)
     private TipoAutenticacao tipo;
 
@@ -62,4 +64,21 @@ public class Autenticacao implements Entidade, Serializable {
     public boolean isIdentificado() {
         return id != null;
     }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public TipoAutenticacao getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoAutenticacao tipo) {
+        this.tipo = tipo;
+    }
+    
 }
