@@ -2,6 +2,7 @@
 package com.flaviolisboa.siaa.util.excecoes;
 
 public class ErroEstadoEntidadeInvalido extends ErroPersistencia {
+	private static final long serialVersionUID = 1L;
 
     public ErroEstadoEntidadeInvalido() {
     }

@@ -2,7 +2,7 @@ package com.flaviolisboa.siaa.negocio.autenticacoes;
 
 public enum TipoAutenticacao {
 
-    Senha(Valores.SENHA);
+    SENHA(Valores.SENHA);
     
     private final String valor;
 

@@ -3,7 +3,8 @@ package com.flaviolisboa.siaa.negocio.perfis;
 public enum TipoPerfil {
 
     ALUNO(Valores.ALUNO),
-    PROFESSOR(Valores.PROFESSOR);
+    PROFESSOR(Valores.PROFESSOR),
+    COORDENADOR(Valores.COORDENADOR);
     
     private final String valor;
 
@@ -23,6 +24,7 @@ public enum TipoPerfil {
     public static final class Valores {
         
         public static final String ALUNO = "A";
-        public static final String PROFESSOR = "F";
+        public static final String PROFESSOR = "P";
+        public static final String COORDENADOR = "C";
     }
 }

@@ -1,62 +1,68 @@
 package com.flaviolisboa.siaa.negocio.autenticacoes;
 
-import com.flaviolisboa.siaa.util.excecoes.ErroNegocio;
-import com.flaviolisboa.siaa.util.marcadores.orm.Identidade;
-import com.flaviolisboa.siaa.util.marcadores.orm.Identificacao;
-import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
-import com.flaviolisboa.siaa.util.marcadores.orm.Interno;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.GroupSequence;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.flaviolisboa.siaa.negocio.pessoas.Pessoa;
+import com.flaviolisboa.siaa.util.excecoes.ErroNegocio;
+import com.flaviolisboa.siaa.util.marcadores.orm.Identidade;
+import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
+import com.flaviolisboa.siaa.util.marcadores.orm.Interno;
+
 @Entity
 @DiscriminatorValue(TipoAutenticacao.Valores.SENHA)
-@GroupSequence({Identificacao.class, Identidade.class, Integridade.class})
+@GroupSequence({ Identidade.class, Integridade.class })
 public class AutenticacaoSenha extends Autenticacao {
+	private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "Forneça uma senha.", groups = Integridade.class)
-    @Size(min = 1, max = 64, message = "A senha deve ter entre {min} e {max} catacrer(es).", groups = Integridade.class)
-    @Transient
-    private char[] senha;
-
+	private static final int TAMANHO_SAL = 256;
+	private static final int TAMANHO_SENHA_CRIPTOGRAFADA = 256;
+	
+    @NotNull(message = "Autenticação por senha deve possuir o valor de sal.", groups = Interno.class)
+    @Size(message = "O valor de sal deve ter tamanho entre {min} e {max} bytes.", min = 1, max = 256, groups = Interno.class)
     @Lob
-    @NotNull(groups = Interno.class)
-    @Size(min = 1, max = 256, groups = Interno.class)
-    @Column(name = "sal", length = 256)
+    @Column(name = "sal", length = TAMANHO_SAL)
     private byte[] sal;
 
+    @Size(message = "A senha criptografada deve ter tamanho entre {min} e {max} bytes.", min = 0, max = 256, groups = Interno.class)
     @Lob
-    @Size(min = 0, max = 256, groups = Interno.class)
-    @Column(name = "senha", length = 256)
+    @Column(name = "senha", length = TAMANHO_SENHA_CRIPTOGRAFADA)
     private byte[] senhaCriptografada;
 
+    @Future(message = "Data da última alteração não pode estar no passado.", groups = Interno.class)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data_ultima_alteracao")
-    private Calendar dataUltimaAlteracao;
+    private Date dataUltimaAlteracao;
+
+    public AutenticacaoSenha() {
+    }
+
+    public AutenticacaoSenha(Long id) {
+        super(id);
+    }
+
+    public AutenticacaoSenha(Pessoa pessoa, byte[] sal) {
+        super(pessoa, TipoAutenticacao.SENHA);
+        this.sal = sal;
+    }
     
-    public char[] getSenha() {
-        return senha;
-    }
-
-    public void setSenha(char[] senha) {
-        this.senha = senha;
-    }
-
-    public Calendar getDataUltimaAlteracao() {
+    public Date getDataUltimaAlteracao() {
         return dataUltimaAlteracao;
     }
 
@@ -64,17 +70,25 @@ public class AutenticacaoSenha extends Autenticacao {
         return this.senhaCriptografada != null;
     }
 
+    public boolean isCredenciaisValidas(char[] senha) {
+        byte[] senhaFinal = criptografarSenha(senha);
+        boolean valido = Arrays.equals(this.senhaCriptografada, senhaFinal);
+        return valido;
+    }
+
+    public void autenticar(char[] senha) {
+    	if (!isCredenciaisValidas(senha)) {
+    		// TODO Melhorar o erro lançado
+    		throw new ErroNegocio();
+    	}
+    }
+    
     public void setSal(byte[] sal) {
         if (!Arrays.equals(this.sal, sal)) {
             // Se o sal for alterado, a senha deve ser recadastrada
             this.senhaCriptografada = null;
             this.sal = Arrays.copyOf(sal, sal.length);
         }
-    }
-
-    public void cadastrar() throws ErroNegocio {
-        cadastrar(this.senha);
-        this.senha = null;
     }
     
     public void cadastrar(char[] senha) throws ErroNegocio {
@@ -85,21 +99,7 @@ public class AutenticacaoSenha extends Autenticacao {
         }
         this.senhaCriptografada = novaSenhaCriptografada;
         // TODO melhorar a geração do Calendar a partir do locale do usuário (como injetar o locale aqui?)
-        this.dataUltimaAlteracao = Calendar.getInstance();
-    }
-    
-    public boolean isCredenciaisValidas() {
-        return isCredenciaisValidas(this.senha);
-    }
-
-    public boolean isCredenciaisValidas(char[] senha) {
-        byte[] senhaFinal = criptografarSenha(senha);
-        boolean valido = Arrays.equals(this.senhaCriptografada, senhaFinal);
-        return valido;
-    }
-
-    public boolean isValidaParaAutenticacao() {
-        return this.senha != null && isAutenticacaoCadastrada();
+        this.dataUltimaAlteracao = new Date();
     }
     
     private byte[] criptografarSenha(char[] senha) throws ErroNegocio {

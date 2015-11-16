@@ -9,20 +9,20 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.GroupSequence;
 
-import com.flaviolisboa.siaa.negocio.turmas.Turma;
+import com.flaviolisboa.siaa.negocio.coordenacoes.Coordenacao;
 import com.flaviolisboa.siaa.util.marcadores.orm.Identidade;
 import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 
 @Entity
-@DiscriminatorValue(TipoPerfil.Valores.PROFESSOR)
+@DiscriminatorValue(TipoPerfil.Valores.COORDENADOR)
 @GroupSequence({ Identidade.class, Integridade.class })
-public class PerfilProfessor extends Perfil {
+public class PerfilCoordenador extends Perfil {
 	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy = "professorResponsavel")
-	private List<Turma> turmas;
+	@OneToMany(mappedBy = "coordenador")
+	private List<Coordenacao> coordenacoes;
 	
-	public List<Turma> getTurmas() {
-		return Collections.unmodifiableList(turmas);
+	public List<Coordenacao> getCoordenacoes() {
+		return Collections.unmodifiableList(coordenacoes);
 	}
 }

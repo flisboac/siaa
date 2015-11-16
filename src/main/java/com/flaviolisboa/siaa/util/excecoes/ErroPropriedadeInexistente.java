@@ -2,6 +2,7 @@
 package com.flaviolisboa.siaa.util.excecoes;
 
 public class ErroPropriedadeInexistente extends ErroPersistencia {
+	private static final long serialVersionUID = 1L;
 
     public ErroPropriedadeInexistente() {
     }

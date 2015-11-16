@@ -10,7 +10,6 @@ public class ResultadoValidacaoSimples implements ResultadoValidacao {
 
     private boolean valido;
     private String resumo;
-    private Object codigo;
     private List<MensagemValidacao> mensagens = new ArrayList<>();
 
     @Override

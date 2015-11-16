@@ -2,8 +2,9 @@
 package com.flaviolisboa.siaa.util.excecoes;
 
 public class ErroEntidadeInexistente extends ErroPersistencia {
+	private static final long serialVersionUID = 1L;
 
-    public ErroEntidadeInexistente() {
+	public ErroEntidadeInexistente() {
     }
 
     public ErroEntidadeInexistente(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
