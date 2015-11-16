@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title><ui:insert name="titulo" /></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="grid/grid.css" library="primefaces" />
+        <style>
+            * {
+                box-sizing: border-box;
+                font-size: 0.95em;
+            }
+        </style>
+    </h:head>
+    <body>
+        <h:form id="frmLogin">
+            <div class="ui-grid ui-grid-responsive">
+                <div class="ui-grid-row">
+                    <p:panel closable="false"
+                             header="SIAA - Login"
+                             toggleable="false"
+                             style="width: 80%; margin: 0 auto">
+                        <ui:insert name="conteudoFormLogin" />
+                        <f:facet name="footer">
+                            <ui:insert name="rodapeFormLogin" />
+                        </f:facet>
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+    </body>
+</html>

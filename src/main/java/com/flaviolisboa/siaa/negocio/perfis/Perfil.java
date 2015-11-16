@@ -12,7 +12,6 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,19 +44,19 @@ public class Perfil extends EntidadeAbstrata<Long> implements Serializable {
     @NotNull(message = "ID não pode ser nulo.", groups = Identificacao.class)
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_perfil")
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @Access(AccessType.PROPERTY)
     private Long id;
     
     @NotNull(message = "Perfil de pessoa deve possuir um tipo.", groups = Identidade.class)
     @Convert(converter = ConversorTipoPerfilJpa.class)
-    @Column(name = "tipo", nullable = false, insertable = false, updatable = false)
+    @Column(name = "tipo", insertable = false, updatable = false)
     private TipoPerfil tipo;
 
     @NotNull(message = "Perfil de pessoa deve pertencer à uma pessoa.", groups = Identidade.class)
     @Valid
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_pessoa", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_perfil_id_pessoa"), nullable = false)
+    @JoinColumn(name = "id_pessoa", referencedColumnName = "id")
     private Pessoa pessoa;
     
     @Past(message = "A data de desativação de um perfil deve estar no passado.", groups = Integridade.class)

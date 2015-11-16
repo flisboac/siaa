@@ -18,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
@@ -36,9 +35,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Identificacao;
 import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 
 @Entity
-@Table(name = "turma_aluno", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "id_turma", "id_aluno" }, name = "uq_turma_aluno")
-})
+@Table(name = "turma_aluno")
 @SequenceGenerator(name = "sq_turma_aluno", sequenceName = "sq_turma_aluno", allocationSize = 1, initialValue = 1)
 @GroupSequence({ Identidade.class, Integridade.class })
 public class ParticipacaoAluno extends EntidadeAbstrata<Long> implements Serializable {
@@ -58,25 +55,25 @@ public class ParticipacaoAluno extends EntidadeAbstrata<Long> implements Seriali
     @NotNull(message = "ID não pode ser nulo.", groups = Identificacao.class)
     @Id
     @GeneratedValue(generator = "sq_turma_aluno", strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
     
     @NotNull(message = "Participação do aluno deve dizer respeito a uma turma.", groups = Identidade.class)
     @Valid
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_turma", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_turma", referencedColumnName = "id")
     private Turma turma;
 
     @NotNull(message = "Participação do aluno em uma turma deve estar relacionado a um aluno.", groups = Identidade.class)
     @Valid
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_aluno", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_aluno", referencedColumnName = "id")
     private PerfilAluno aluno;
 
     @Valid
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride(name = "nota", column = @Column(name = "nota_01", precision = PRECISAO_NOTA, scale = ESCALA_NOTA)),
+        @AttributeOverride(name = "nota", column = @Column(name = "nota_01")),
         @AttributeOverride(name = "ausente", column = @Column(name = "nota_01_ausente")),
         @AttributeOverride(name = "dataLancamento", column = @Column(name = "nota_01_data"))
     })
@@ -85,7 +82,7 @@ public class ParticipacaoAluno extends EntidadeAbstrata<Long> implements Seriali
     @Valid
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride(name = "nota", column = @Column(name = "nota_02", precision = PRECISAO_NOTA, scale = ESCALA_NOTA)),
+        @AttributeOverride(name = "nota", column = @Column(name = "nota_02")),
         @AttributeOverride(name = "ausente", column = @Column(name = "nota_02_ausente")),
         @AttributeOverride(name = "dataLancamento", column = @Column(name = "nota_02_data"))
     })
@@ -94,7 +91,7 @@ public class ParticipacaoAluno extends EntidadeAbstrata<Long> implements Seriali
     @Valid
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride(name = "nota", column = @Column(name = "nota_03", precision = PRECISAO_NOTA, scale = ESCALA_NOTA)),
+        @AttributeOverride(name = "nota", column = @Column(name = "nota_03")),
         @AttributeOverride(name = "ausente", column = @Column(name = "nota_03_ausente")),
         @AttributeOverride(name = "dataLancamento", column = @Column(name = "nota_03_data"))
     })
@@ -103,7 +100,7 @@ public class ParticipacaoAluno extends EntidadeAbstrata<Long> implements Seriali
     @Valid
     @Embedded
     @AttributeOverrides({
-        @AttributeOverride(name = "nota", column = @Column(name = "nota_04", precision = PRECISAO_NOTA, scale = ESCALA_NOTA)),
+        @AttributeOverride(name = "nota", column = @Column(name = "nota_04")),
         @AttributeOverride(name = "ausente", column = @Column(name = "nota_04_ausente")),
         @AttributeOverride(name = "dataLancamento", column = @Column(name = "nota_04_data"))
     })
@@ -111,12 +108,12 @@ public class ParticipacaoAluno extends EntidadeAbstrata<Long> implements Seriali
 
 	@DecimalMin(value = "0.0", message = "Média preliminar deve ser no mínimo {value}.", groups = Integridade.class)
 	@DecimalMax(value = "10.0", message = "Média preliminar deve ser no máximo {value}.", groups = Integridade.class)
-    @Column(name = "media_preliminar", precision = PRECISAO_NOTA, scale = ESCALA_NOTA)
+    @Column(name = "media_preliminar")
     private BigDecimal mediaPreliminar;
 
 	@DecimalMin(value = "0.0", message = "Média final deve ser no mínimo {value}.", groups = Integridade.class)
 	@DecimalMax(value = "10.0", message = "Média final deve ser no máximo {value}.", groups = Integridade.class)
-    @Column(name = "media_final", precision = PRECISAO_NOTA, scale = ESCALA_NOTA)
+    @Column(name = "media_final")
     private BigDecimal mediaFinal;
 
 	@NotNull(message = "Aluno deve possuir um status de participação em turma.", groups = Integridade.class)

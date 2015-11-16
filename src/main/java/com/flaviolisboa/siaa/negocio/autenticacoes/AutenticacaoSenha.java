@@ -35,14 +35,14 @@ public class AutenticacaoSenha extends Autenticacao {
 	private static final int TAMANHO_SENHA_CRIPTOGRAFADA = 256;
 	
     @NotNull(message = "Autenticação por senha deve possuir o valor de sal.", groups = Interno.class)
-    @Size(message = "O valor de sal deve ter tamanho entre {min} e {max} bytes.", min = 1, max = 256, groups = Interno.class)
+    @Size(message = "O valor de sal deve ter tamanho entre {min} e {max} bytes.", min = 1, max = TAMANHO_SAL, groups = Interno.class)
     @Lob
-    @Column(name = "sal", length = TAMANHO_SAL)
+    @Column(name = "sal")
     private byte[] sal;
 
-    @Size(message = "A senha criptografada deve ter tamanho entre {min} e {max} bytes.", min = 0, max = 256, groups = Interno.class)
+    @Size(message = "A senha criptografada deve ter tamanho entre {min} e {max} bytes.", min = 0, max = TAMANHO_SENHA_CRIPTOGRAFADA, groups = Interno.class)
     @Lob
-    @Column(name = "senha", length = TAMANHO_SENHA_CRIPTOGRAFADA)
+    @Column(name = "senha")
     private byte[] senhaCriptografada;
 
     @Future(message = "Data da última alteração não pode estar no passado.", groups = Interno.class)

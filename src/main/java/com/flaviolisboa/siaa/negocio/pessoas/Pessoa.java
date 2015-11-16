@@ -16,7 +16,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -31,9 +30,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Identificacao;
 import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 
 @Entity
-@Table(name = "pessoa", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"nome_completo", "data_nascimento"}, name = "uq_pessoa_nome")
-})
+@Table(name = "pessoa")
 @SequenceGenerator(name = "sq_pessoa", sequenceName = "sq_pessoa", allocationSize = 1, initialValue = 1)
 @GroupSequence({ Identidade.class, Integridade.class })
 public class Pessoa extends EntidadeAbstrata<Long> implements Serializable {
@@ -45,19 +42,19 @@ public class Pessoa extends EntidadeAbstrata<Long> implements Serializable {
     @NotNull(message = "ID não pode ser nulo.", groups = Identificacao.class)
     @Id
     @GeneratedValue(generator = "sq_pessoa", strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
     
     @NotNull(message = "Pessoa deve possuir um nome completo.", groups = Identidade.class)
     @Size(min = 1, max = TAMANHO_NOME_COMPLETO, message = "Nome completo da pessoa deve estar entre {min} e {max} caracteres.", groups = Identidade.class)
     @Pattern(regexp = PADRAO_NOME_COMPLETO, message = "Nome completo da pessoa não pode ser vazio.", groups = Identidade.class)
-    @Column(name = "nome_completo", nullable = false, length = TAMANHO_NOME_COMPLETO)
+    @Column(name = "nome_completo")
     private String nomeCompleto;
     
     @NotNull(message = "Pessoa deve possuir uma data de nascimento.", groups = Identidade.class)
     @Past(message = "Data de nascimento de uma pessoa deve estar no passado.", groups = Identidade.class)
     @Temporal(TemporalType.DATE)
-    @Column(name = "data_nascimento", nullable = false)
+    @Column(name = "data_nascimento")
     private Date dataNascimento;
 
 	@OneToMany(mappedBy = "pessoa")

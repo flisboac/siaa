@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -19,7 +18,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -39,11 +37,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Identificacao;
 import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 
 @Entity
-@Table(name = "turma", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "codigo" }, name = "uq_turma")
-}, indexes = {
-    @Index(columnList = "id_materia")
-})
+@Table(name = "turma")
 @SequenceGenerator(name = "sq_turma", sequenceName = "sq_turma", allocationSize = 1, initialValue = 1)
 @GroupSequence({ Identidade.class, Integridade.class })
 public class Turma extends EntidadeAbstrata<Long> implements Serializable {
@@ -56,19 +50,19 @@ public class Turma extends EntidadeAbstrata<Long> implements Serializable {
     @NotNull(message = "ID não pode ser nulo.", groups = Identificacao.class)
     @Id
     @GeneratedValue(generator = "sq_turma", strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
     
     @NotNull(message = "Matéria deve pertencer a uma turma.", groups = Integridade.class)
     @Valid
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_materia", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_materia", referencedColumnName = "id")
     private Materia materia;
     
     @NotNull(message = "Turma deve possuir um código.", groups = Identidade.class)
     @Size(min = 1, max = TAMANHO_CODIGO, message = "Código de turma deve estar entre {min} e {max} caracter(es).", groups = Integridade.class)
     @Pattern(regexp = PADRAO_CODIGO, message = "Código de turma deve ter padrão '{regexp}'.", groups = Identidade.class)
-    @Column(name = "codigo", nullable = false, length = TAMANHO_CODIGO)
+    @Column(name = "codigo")
     private String codigo;
     
     @NotNull(message = "Data de criação da turma deve ser especificada.", groups = Integridade.class)
@@ -80,11 +74,11 @@ public class Turma extends EntidadeAbstrata<Long> implements Serializable {
     @NotNull(message = "Número máximo de alunos deve ser especificado para a turma.", groups = Integridade.class)
     @Min(value = 1, message = "Turma deve comportar no mínimo {value} aluno(s).", groups = Integridade.class)
     @Max(value = MAXIMO_ALUNOS, message = "Capacidade da turma não deve ultrapassar {value} aluno(s).", groups = Integridade.class)
-    @Column(name = "numero_maximo_alunos", nullable = false)
+    @Column(name = "numero_maximo_alunos")
     private Integer numeroMaximoAlunos;
     
     @ManyToOne
-    @JoinColumn(name = "id_professor_responsavel", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_professor_responsavel", referencedColumnName = "id")
     private PerfilProfessor professorResponsavel;
     
     @OneToMany(mappedBy = "turma")

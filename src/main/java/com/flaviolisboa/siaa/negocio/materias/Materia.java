@@ -7,17 +7,14 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -33,12 +30,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Identificacao;
 import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 
 @Entity
-@Table(name = "materia", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "codigo", "id_coordenacao_origem" }, name = "uq_materia")
-}, indexes = {
-    @Index(columnList = "codigo", name = "ix_materia_codigo"),
-    @Index(columnList = "id_coordenacao_origem", name = "ix_materia_coordenacao_origem")
-})
+@Table(name = "materia")
 @SequenceGenerator(name = "sq_materia", sequenceName = "sq_materia", allocationSize = 1, initialValue = 1)
 @GroupSequence({ Identidade.class, Integridade.class })
 public class Materia extends EntidadeAbstrata<Long> implements Serializable {
@@ -52,29 +44,29 @@ public class Materia extends EntidadeAbstrata<Long> implements Serializable {
     @NotNull(message = "ID não pode ser nulo.", groups = Identificacao.class)
     @Id
     @GeneratedValue(generator = "sq_materia", strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
     
     @NotNull(message = "Matéria deve possuir uma coordenação de origem.", groups = Identidade.class)
     @Valid
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_coordenacao_origem", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "fk_materia_id_coordenacao_origem"))
+    @JoinColumn(name = "id_coordenacao_origem", referencedColumnName = "id")
     private Coordenacao coordenacaoOrigem;
     
     @NotNull(message = "Código da matéria deve ser fornecido.", groups = Identidade.class)
     @Size(min = 3, max = TAMANHO_CODIGO, message = "Código da matéria deve estar entre {min} e {max} caracteres.", groups = Integridade.class)
     @Pattern(regexp = PADRAO_CODIGO, message = "Código da matéria deve consistir apenas de caracteres alfanuméricos.", groups = Integridade.class)
-    @Column(name = "codigo", nullable = false, length = TAMANHO_CODIGO)
+    @Column(name = "codigo")
     private String codigo;
     
     @NotNull(message = "Nome da matéria deve ser fornecido.", groups = Integridade.class)
     @Size(min = 1, max = TAMANHO_NOME, message = "Nome da matéria deve estar entre {min} e {max} caracteres.", groups = Integridade.class)
     @Pattern(regexp = PADRAO_NOME, message = "Nome da matéria não pode ser vazio.", groups = Integridade.class)
-    @Column(name = "nome", nullable = false, length = TAMANHO_NOME)
+    @Column(name = "nome")
     private String nome;
     
     @NotNull(message = "Matéria deve possuir um método de avaliação.", groups = Integridade.class)
-    @Column(name = "metodo_avaliacao", nullable = false)
+    @Column(name = "metodo_avaliacao")
     private MetodoAvaliacao metodoAvaliacao;
     
     @OneToMany(mappedBy = "materia")

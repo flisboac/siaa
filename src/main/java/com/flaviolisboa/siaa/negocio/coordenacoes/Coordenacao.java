@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -27,9 +25,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Identificacao;
 import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 
 @Entity
-@Table(name = "coordenacao", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "codigo" }, name = "uq_coordenacao_codigo")
-})
+@Table(name = "coordenacao")
 @SequenceGenerator(name = "sq_coordenacao", sequenceName = "sq_coordenacao", initialValue = 1, allocationSize = 1)
 @GroupSequence({ Identidade.class, Integridade.class })
 public class Coordenacao extends EntidadeAbstrata<Long> implements Serializable {
@@ -49,19 +45,19 @@ public class Coordenacao extends EntidadeAbstrata<Long> implements Serializable 
     @NotNull(message = "Deve ser informado um código para a coordenação.", groups = Identidade.class)
     @Size(min = 2, max = TAMANHO_CODIGO, message = "Mensagem deve ter entre {min} e {max} caracter(es).", groups = Identidade.class)
     @Pattern(regexp = PADRAO_CODIGO, message = "Código deve conter apenascaracteres alfanuméricos, começando poruma letra.", groups = Identidade.class)
-    @Column(name = "codigo", nullable = false, length = TAMANHO_CODIGO)
+    @Column(name = "codigo")
     private String codigo;
     
     @NotNull(message = "Nome da coordenação deve ser fornecido.", groups = Integridade.class)
     @Size(min = 1, max = TAMANHO_NOME, message = "Nome da coordenação deve conter entre {min} e {max} caracter(es).", groups = Integridade.class)
     @Pattern(regexp = PADRAO_NOME, message = "Nome da coordenação não pode ser vazio.", groups = Integridade.class)
-    @Column(name = "nome", nullable = false, length = TAMANHO_NOME)
+    @Column(name = "nome")
     private String nome;
     
     @NotNull(message = "Coordenação deve possuir um coordenador responsável por ela.", groups = Integridade.class)
     @Valid
     @ManyToOne
-    @JoinColumn(name = "id_perfil_coordenador", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "fk_coordenacao_id_coordenador"))
+    @JoinColumn(name = "id_perfil_coordenador", referencedColumnName = "id")
     private PerfilCoordenador coordenador;
 
     public Coordenacao() {
