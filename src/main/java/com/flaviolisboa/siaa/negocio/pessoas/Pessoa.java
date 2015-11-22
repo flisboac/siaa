@@ -32,7 +32,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 @Entity
 @Table(name = "pessoa")
 @SequenceGenerator(name = "sq_pessoa", sequenceName = "sq_pessoa", allocationSize = 1, initialValue = 1)
-@GroupSequence({ Identidade.class, Integridade.class })
+@GroupSequence({ Identidade.class, Integridade.class, Pessoa.class })
 public class Pessoa extends EntidadeAbstrata<Long> implements Serializable {
 	private static final long serialVersionUID = 1L;
 

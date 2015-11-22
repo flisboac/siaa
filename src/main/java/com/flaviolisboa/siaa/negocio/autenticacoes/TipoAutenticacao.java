@@ -10,7 +10,11 @@ public enum TipoAutenticacao {
         this.valor = valor;
     }
     
-    public static TipoAutenticacao buscarPorValor(String valor) {
+    public String getValor() {
+		return valor;
+	}
+
+	public static TipoAutenticacao buscarPorValor(String valor) {
         for (TipoAutenticacao elem : values()) {
             if (elem.valor.compareTo(valor) == 0) {
                 return elem;

@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+<ui:composition 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/WEB-INF/layouts/geral.xhtml">
+    
+    <ui:define name="titulo">SIAA - Seja Bem-vindo!</ui:define>
+    
+    <ui:define name="body">
+        <h1>Seja bem-vindo!</h1>
+        <p>Seja bem-vindo ao SIAA, o <em>Sistema Integrado de Administração Acadêmica</em>.
+        <p:link outcome="login" value="Faça Login" /> para prosseguir. 
+        </p>
+    </ui:define>    
+</ui:composition>

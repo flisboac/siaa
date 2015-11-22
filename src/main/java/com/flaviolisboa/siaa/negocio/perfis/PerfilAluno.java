@@ -24,7 +24,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 		@PrimaryKeyJoinColumn(name = "id_perfil", referencedColumnName = "id")
 })
 @DiscriminatorValue(TipoPerfil.Valores.ALUNO)
-@GroupSequence({ Identidade.class, Integridade.class })
+@GroupSequence({ Identidade.class, Integridade.class, PerfilAluno.class })
 public class PerfilAluno extends Perfil {
 	private static final long serialVersionUID = 1L;	
     

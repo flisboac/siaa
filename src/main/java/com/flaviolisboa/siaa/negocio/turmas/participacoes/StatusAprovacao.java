@@ -13,7 +13,11 @@ public enum StatusAprovacao {
         this.valor = valor;
     }
     
-    public static StatusAprovacao buscarPorValor(String valor) {
+    public String getValor() {
+		return valor;
+	}
+
+	public static StatusAprovacao buscarPorValor(String valor) {
         for (StatusAprovacao elem : values()) {
             if (elem.valor.compareTo(valor) == 0) {
                 return elem;

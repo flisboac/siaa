@@ -15,7 +15,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 
 @Entity
 @DiscriminatorValue(TipoPerfil.Valores.PROFESSOR)
-@GroupSequence({ Identidade.class, Integridade.class })
+@GroupSequence({ Identidade.class, Integridade.class, PerfilProfessor.class })
 public class PerfilProfessor extends Perfil {
 	private static final long serialVersionUID = 1L;
 

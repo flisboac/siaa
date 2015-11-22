@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<ui:composition 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/WEB-INF/layouts/geral.xhtml">
+    
+    <ui:define name="titulo">
+        <ui:insert name="titulo" />
+    </ui:define>
+    
+    <ui:define name="head">
+        <h:outputStylesheet name="css/admin.css" library="siaa" />
+        <style>
+            .ui-menuitem-icon.fa {
+                margin-right: 0.1em !important;
+                margin-left: 0.6em !important;
+            }
+            .ui-menubar, .ui-menubar *, .ui-menu, .ui-menu * {
+                font-size: 98% !important;
+            }
+        </style>
+        <ui:insert name="head" />
+    </ui:define>
+    
+    <ui:define name="body">
+        <div style="position: absolute; width: 100%; height: 100%; margin: 0 auto; border: 0;">
+            <div style="position: relative; width: 100%; max-width: 960px; min-width: 640px; height: 100%; margin: 0 auto; border: 0;">
+                
+                <div style="position: absolute; width: 100%; height: 100%; padding-top: 6em; padding-bottom: 2.5em;">
+                    <div style="position: relative; width: 100%; height: 100%; padding-left: 1em; padding-right: 1em; overflow: auto;">
+                        <ui:insert name="conteudo" />
+                    </div>
+                </div>
+                
+                <div class="ui-grid" style="position: absolute; width: 100%; height: 2em; top: 0; padding: 0.5em; line-height: 1em; ">
+                    <div class="ui-grid-row" style="border-bottom: 1px solid grey; ">
+                        <div class="ui-grid-col-2" style="min-width: 135px">
+                            <h1 style="font-size: 2em">
+                                <i class="fa fa-graduation-cap" style="padding-left: 0.25em; padding-right: 0.25em" />SIAA
+                            </h1>
+                        </div>
+                        
+                        <div class="ui-grid-col-10" style="padding: 1em; line-height: 1em">
+                            <h:form id="frmMenu">
+                                <p:menubar>
+                                    <p:submenu label="Cadastro">
+                                        <p:menuitem icon="fa fa-group" value="Pessoas" />
+                                        <p:menuitem icon="fa fa-star" value="Coordenadores" />
+                                        <p:menuitem icon="fa fa-graduation-cap" value="Professores" />
+                                        <p:menuitem icon="fa fa-user" value="Alunos" />
+                                        <p:menuitem icon="fa fa-institution" value="Coordenações" />
+                                        <p:menuitem icon="fa fa-book" value="Matérias" />
+                                        <p:menuitem icon="fa fa-pencil" value="Turmas" />
+                                    </p:submenu>
+                                    
+                                    <p:submenu label="Acadêmico">
+                                        <p:menuitem icon="fa fa-pencil-square-o" value="Lançamento de Notas" />
+                                        <p:menuitem icon="fa fa-file-text-o" value="Notas" />
+                                    </p:submenu>
+                                    
+                                    <f:facet name="options">
+                                        <p:splitButton icon="fa fa-user" value="Usuário">
+                                            <p:menuitem icon="fa fa-sign-out" value="Sair" action="#{sessaoBean.logout}"/>
+                                        </p:splitButton>
+                                    </f:facet>
+                                </p:menubar>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="position: absolute; width: 100%; height: 2em; bottom: 0; padding: 0.5em; line-height: 0.5em; border-top: 1px solid grey; text-align: center">
+                    <p style="margin: 0; padding: 0"><i class="fa fa-copyright" /> 2015 Flávio Lisbôa</p>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+    
+</ui:composition>

@@ -30,7 +30,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 @Entity
 @Table(name = "login")
 @SequenceGenerator(name = "sq_login", sequenceName = "sq_login", allocationSize = 1, initialValue = 1)
-@GroupSequence({ Identidade.class, Integridade.class })
+@GroupSequence({ Identidade.class, Integridade.class, Login.class })
 public class Login extends EntidadeAbstrata<Long> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -98,7 +98,7 @@ public class Login extends EntidadeAbstrata<Long> implements Serializable {
 	}
 	
     private void doSetNome(String nome) {
-        nome = nome != null ? nome.replaceAll("[_.]", "") : nome;
+        nome = normalizarNome(nome);
         if (nome == null
         		|| nome.isEmpty()
         		|| nome.length() > TAMANHO_NOME
@@ -107,5 +107,9 @@ public class Login extends EntidadeAbstrata<Long> implements Serializable {
             throw new ErroValidacao();
         }
         this.nome = nome;
+    }
+    
+    public static String normalizarNome(String nome) {
+    	return nome != null ? nome.replaceAll("[_.]", "").toUpperCase() : nome;
     }
 }

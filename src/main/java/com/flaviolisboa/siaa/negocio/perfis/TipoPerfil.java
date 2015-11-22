@@ -2,17 +2,27 @@ package com.flaviolisboa.siaa.negocio.perfis;
 
 public enum TipoPerfil {
 
-    ALUNO(Valores.ALUNO),
-    PROFESSOR(Valores.PROFESSOR),
-    COORDENADOR(Valores.COORDENADOR);
+    ALUNO(Valores.ALUNO, PerfilAluno.class),
+    PROFESSOR(Valores.PROFESSOR, PerfilProfessor.class),
+    COORDENADOR(Valores.COORDENADOR, PerfilCoordenador.class);
     
     private final String valor;
+    private final Class<? extends Perfil> classeEntidade;
 
-    private TipoPerfil(String valor) {
+    private TipoPerfil(String valor, Class<? extends Perfil> classeEntidade) {
         this.valor = valor;
+        this.classeEntidade = classeEntidade;
     }
     
-    public static TipoPerfil buscarPorValor(String valor) {
+    public String getValor() {
+		return valor;
+	}
+
+	public Class<? extends Perfil> getClasseEntidade() {
+		return classeEntidade;
+	}
+
+	public static TipoPerfil buscarPorValor(String valor) {
         for (TipoPerfil elem : values()) {
             if (elem.valor.compareTo(valor) == 0) {
                 return elem;

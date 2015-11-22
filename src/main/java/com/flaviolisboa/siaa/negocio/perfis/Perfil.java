@@ -37,7 +37,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
 @SequenceGenerator(name = "sq_perfil", sequenceName = "sq_perfil", initialValue = 1, allocationSize = 1)
-@GroupSequence({ Identidade.class, Integridade.class })
+@GroupSequence({ Identidade.class, Integridade.class, Perfil.class })
 public class Perfil extends EntidadeAbstrata<Long> implements Serializable {
 	private static final long serialVersionUID = 1L;
 

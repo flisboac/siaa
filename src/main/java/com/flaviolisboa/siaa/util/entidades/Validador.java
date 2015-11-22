@@ -1,10 +1,11 @@
 
 package com.flaviolisboa.siaa.util.entidades;
 
-import com.flaviolisboa.siaa.util.excecoes.ErroValidacao;
 import java.util.List;
 
-public interface Validador<T extends Entidade> {
+import com.flaviolisboa.siaa.util.excecoes.ErroValidacao;
+
+public interface Validador<T extends Entidade> extends Servico<T> {
 
 	<TT extends T> ResultadoValidacao validar(TT entidade, Class<?>... aspectos);
 	<TT extends T> ResultadoValidacao validar(TT entidade, Object propriedade, Class<?>... aspectos);

@@ -10,12 +10,13 @@ import javax.persistence.OneToMany;
 import javax.validation.GroupSequence;
 
 import com.flaviolisboa.siaa.negocio.coordenacoes.Coordenacao;
+import com.flaviolisboa.siaa.negocio.pessoas.Pessoa;
 import com.flaviolisboa.siaa.util.marcadores.orm.Identidade;
 import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 
 @Entity
 @DiscriminatorValue(TipoPerfil.Valores.COORDENADOR)
-@GroupSequence({ Identidade.class, Integridade.class })
+@GroupSequence({ Identidade.class, Integridade.class, PerfilCoordenador.class })
 public class PerfilCoordenador extends Perfil {
 	private static final long serialVersionUID = 1L;
 
@@ -24,5 +25,13 @@ public class PerfilCoordenador extends Perfil {
 	
 	public List<Coordenacao> getCoordenacoes() {
 		return Collections.unmodifiableList(coordenacoes);
+	}
+	
+	public PerfilCoordenador() {
+		super(TipoPerfil.COORDENADOR, null);
+	}
+	
+	public PerfilCoordenador(Pessoa pessoa) {
+		super(TipoPerfil.COORDENADOR, pessoa);
 	}
 }

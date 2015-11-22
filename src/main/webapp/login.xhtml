@@ -5,28 +5,35 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:f="http://java.sun.com/jsf/core"
     template="/WEB-INF/layouts/login.xhtml">
+    
+    <ui:define name="titulo">
+        SIAA - Login
+    </ui:define>
+    
     <ui:define name="conteudoFormLogin">
         <p:messages autoUpdate="true" closable="false" redisplay="false" style="width: 100%"/>
         
         <p:panelGrid columns="1" layout="grid">
+            <f:facet name="header">
+                <h:outputText value="Fazer Login como:" />
+                <p:selectOneButton value="#{loginViewBean.tipoPerfil}" style="width: 100%; margin: 0 auto">
+                    <f:selectItems value="#{loginViewBean.tiposPerfil}"
+                                   var="tipoPerfil"
+                                   itemLabel="#{loginViewBean.getDescricaoTipoPerfil(tipoPerfil)}"
+                                   itemValue="#{tipoPerfil}">
+                    </f:selectItems>
+                </p:selectOneButton>
+            </f:facet>
+
+            <p:watermark value="Digite seu Login/Matrícula" for="txtNome" />
+            <p:inputText id="txtNome" style="width: 100%" value="#{loginViewBean.nome}" styleClass="fa fa-user ui-icon-left" />
             
-            <p:selectOneButton style="width: 100%; margin: 0 auto">
-                <f:selectItem itemLabel="Aluno" />
-                <f:selectItem itemLabel="Professor" />
-                <f:selectItem itemLabel="Coordenador" />
-            </p:selectOneButton>    
-            <h:outputLabel for="txtNome" value="Nome" />
-            <p:inputText id="txtNome" style="width: 100%" />
-        
-            <h:outputLabel for="txtSenha" value="Senha" />
-            <p:password id="txtSenha" style="width: 100%" />
+            <p:watermark value="Digite sua senha" for="txtSenha" />
+            <p:password id="txtSenha" style="width: 100%" value="#{loginViewBean.senha}" converter="CharArrayConverter" />
         </p:panelGrid>
     </ui:define>
     
     <ui:define name="rodapeFormLogin">
-        <p:panelGrid columns="2" layout="grid">
-            <span></span>
-            <p:commandButton id="btnLogin" type="submit" value="Login" style="width: 100%" />
-        </p:panelGrid>
+        <p:commandButton id="btnLogin" type="submit" value="Login" ajax="false" icon="fa fa-sign-in" action="#{loginViewBean.doLogin}" style="width: 100%" />
     </ui:define>
 </ui:composition>

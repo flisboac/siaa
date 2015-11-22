@@ -34,7 +34,7 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Integridade;
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "tipo")
 @Table(name = "autenticacao")
 @SequenceGenerator(name = "sq_autenticacao", sequenceName = "sq_autenticacao", initialValue = 1, allocationSize = 1)
-@GroupSequence({ Identidade.class, Integridade.class})
+@GroupSequence({ Identidade.class, Integridade.class, Autenticacao.class })
 public class Autenticacao implements Entidade, Serializable {
 	private static final long serialVersionUID = 1L;
 

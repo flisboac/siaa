@@ -27,10 +27,12 @@ import com.flaviolisboa.siaa.util.marcadores.orm.Interno;
 
 @Entity
 @DiscriminatorValue(TipoAutenticacao.Valores.SENHA)
-@GroupSequence({ Identidade.class, Integridade.class })
+@GroupSequence({ Identidade.class, Integridade.class, AutenticacaoSenha.class })
 public class AutenticacaoSenha extends Autenticacao {
 	private static final long serialVersionUID = 1L;
 
+	public static final int TAMANHO_SENHA = 64;
+	
 	private static final int TAMANHO_SAL = 256;
 	private static final int TAMANHO_SENHA_CRIPTOGRAFADA = 256;
 	
@@ -57,9 +59,13 @@ public class AutenticacaoSenha extends Autenticacao {
         super(id);
     }
 
+    public AutenticacaoSenha(Pessoa pessoa) {
+    	super(pessoa, TipoAutenticacao.SENHA);
+    }
+    
     public AutenticacaoSenha(Pessoa pessoa, byte[] sal) {
-        super(pessoa, TipoAutenticacao.SENHA);
-        this.sal = sal;
+        this(pessoa);
+        doSetSal(sal);
     }
     
     public Date getDataUltimaAlteracao() {
@@ -83,7 +89,7 @@ public class AutenticacaoSenha extends Autenticacao {
     	}
     }
     
-    public void setSal(byte[] sal) {
+    private void doSetSal(byte[] sal) {
         if (!Arrays.equals(this.sal, sal)) {
             // Se o sal for alterado, a senha deve ser recadastrada
             this.senhaCriptografada = null;
@@ -105,6 +111,11 @@ public class AutenticacaoSenha extends Autenticacao {
     private byte[] criptografarSenha(char[] senha) throws ErroNegocio {
         byte[] retorno;
 
+        if (sal == null || sal.length == 0) {
+        	// TODO melhorar o erro lançado
+        	throw new ErroNegocio();
+        }
+        
         if (senha == null) {
             retorno = null;
 

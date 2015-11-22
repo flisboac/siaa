@@ -1,35 +1,60 @@
 <!DOCTYPE html>
-<html 
+<ui:composition 
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:f="http://java.sun.com/jsf/core">
-    <h:head>
-        <title><ui:insert name="titulo" /></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="grid/grid.css" library="primefaces" />
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/WEB-INF/layouts/geral.xhtml">
+    
+    <ui:define name="titulo">
+        <ui:insert name="titulo" />
+    </ui:define>
+    
+    <ui:define name="head">
+        <h:outputStylesheet name="css/login.css" library="siaa" />
         <style>
-            * {
-                box-sizing: border-box;
-                font-size: 0.95em;
-            }
+        * {
+            font-size: 99% !important;
+        }
+        .ui-panelgrid > * > tr,
+        .ui-panelgrid .ui-panelgrid-cell,
+        .ui-panelgrid-content {
+            border: none !important;
+        }
+        input[type=text], input[type=password] {
+            font-size: 200% !important;
+        }
+        button {
+            font-size: 150% !important;
+        }
+        button .ui-icon {
+            font-size: 85% !important;
+        }
         </style>
-    </h:head>
-    <body>
+        <ui:insert name="head" />
+    </ui:define>
+    
+    <ui:define name="body">
         <h:form id="frmLogin">
             <div class="ui-grid ui-grid-responsive">
                 <div class="ui-grid-row">
                     <p:panel closable="false"
                              header="SIAA - Login"
                              toggleable="false"
-                             style="width: 80%; margin: 0 auto">
+                             rendered="#{empty perfil}"
+                             style="width: 80%; max-width: 400px; margin: 0 auto">
                         <ui:insert name="conteudoFormLogin" />
                         <f:facet name="footer">
                             <ui:insert name="rodapeFormLogin" />
                         </f:facet>
                     </p:panel>
+                    <p:outputPanel rendered="#{not empty perfil}" 
+                             style="width: 80%; max-width: 400px; margin: 0 auto">
+                        <p>Você já está logado! Se desejar, pode efetuar logoff.</p>
+                        <p:commandButton icon="fa fa-sign-out" value="Logoff" ajax="false" action="#{sessaoBean.logout}" style="width: 100%" />
+                    </p:outputPanel>
                 </div>
             </div>
         </h:form>
-    </body>
-</html>
+    </ui:define>
+</ui:composition>
