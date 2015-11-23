@@ -15,8 +15,8 @@ import com.flaviolisboa.siaa.negocio.perfis.Perfil;
 public class SessaoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private AtomicReference<Perfil> perfil;
-	private AtomicReference<String> navegacao;
+	private AtomicReference<Perfil> perfil = new AtomicReference<>();
+	private AtomicReference<String> navegacao = new AtomicReference<>();
 
 	@Produces
 	@Named("perfil")
@@ -24,7 +24,7 @@ public class SessaoBean implements Serializable {
 		return perfil.get();
 	}
 
-	public void setPerfil(Perfil perfil) {
+	public void login(Perfil perfil) {
 		this.perfil.set(perfil);
 	}
 	

@@ -106,4 +106,10 @@ public class Perfil extends EntidadeAbstrata<Long> implements Serializable {
     		this.dataDesativacao = new Date();
     	}
     }
+
+    public void ativar() {
+    	if (!isAtivo()) {
+    		this.dataDesativacao = new Date();
+    	}
+    }
 }

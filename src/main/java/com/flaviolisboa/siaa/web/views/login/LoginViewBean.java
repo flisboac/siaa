@@ -46,36 +46,37 @@ public class LoginViewBean implements Serializable {
 	
 	public String doLogin() {
 		boolean autenticado = false;
+		String navegacao = "";
 		Perfil perfil = repositorioPerfil.buscarAlgum(tipoPerfil, nome);
 		
-		if (perfil != null) {
+		if (perfil != null && perfil.isAtivo()) {
 			Pessoa pessoa = perfil.getPessoa();
 			AutenticacaoSenha autenticacao = repositorioAutenticacao.buscarAlgum(pessoa, AutenticacaoSenha.class);
 			
-			if (autenticacao != null) {
+			if (autenticacao != null && autenticacao.isAutenticacaoCadastrada()) {
 				autenticado = autenticacao.isCredenciaisValidas(senha);
 			}
 		}
 		
 		if (autenticado) {
-			sessaoBean.setPerfil(perfil);
-			String navegacao = redirecionar();
-			return navegacao;
+			sessaoBean.login(perfil);
+			navegacao = redirecionar();
+			
 		} else {
 			UtilJsf.erro(null, "Usuário ou senha inválidos.", null);
 		}
 		
-		return "";
+		return navegacao;
 	}
 	
 	private String redirecionar() {
 		switch (tipoPerfil) {
 		case ALUNO:
-			return "/aluno?faces-redirect=true";
+			return "/aluno/index.xhtml?faces-redirect=true";
 		case COORDENADOR:
 			return "/coordenador/index.xhtml?faces-redirect=true";
 		case PROFESSOR:
-			return "/professor?faces-redirect=true";
+			return "/professor/index.xhtml?faces-redirect=true";
 		}
 		return "";
 	}

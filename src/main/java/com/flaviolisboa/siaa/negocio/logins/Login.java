@@ -93,6 +93,12 @@ public class Login extends EntidadeAbstrata<Long> implements Serializable {
 		}
 	}
 	
+	public void ativar() {
+		if (!isAtivo()) {
+			this.dataDesativacao = null;
+		}
+	}
+	
 	public boolean isAtivo() {
 		return dataDesativacao == null;
 	}

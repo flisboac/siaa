@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<ui:composition 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/WEB-INF/layouts/admin.xhtml">
+    
+    <ui:define name="titulo">
+        SIAA - Pessoas e Usuários
+    </ui:define>
+    
+    <ui:define name="conteudo">
+        <f:metadata>
+            <f:viewParam id="idPessoa" name="idPessoa" value="#{pessoaViewBean.idPessoa}" />        
+        </f:metadata>
+            
+        <p:breadCrumb homeDisplay="no" style="margin-bottom: 1em">
+            <p:menuitem value="Coordenador" outcome="/coordenador/index.xhtml" />
+            <p:menuitem value="Pessoas" outcome="/coordenador/pessoas.xhtml" /> 
+        </p:breadCrumb>
+            
+        <!-- LISTAGEM DE PESSOAS -->
+        <p:outputPanel rendered="#{pessoaViewBean.listandoPessoas}">
+            
+            <h:form id="frmCadastro">
+                <p:toolbar>
+                    <f:facet name="left">
+                    </f:facet>
+                    
+                    <f:facet name="right">
+                        <p:commandButton icon="fa fa-plus" value="Novo" action="#{pessoaViewBean.novaPessoa()}" update="@all" />
+                    </f:facet>
+                </p:toolbar>
+                
+                <p:dataTable value="#{pessoaViewBean.pessoas}"
+                             var="pessoa"
+                             selectionMode="single"
+                             selection="#{pessoaViewBean.pessoa}"
+                             rowKey="#{pessoa}"
+                             converter="#{conversorPessoa}"
+                             paginator="true"
+                             rowsPerPageTemplate="5,10,20">                 
+                     <p:column headerText="ID" style="width: 5em">#{pessoa.id}</p:column>
+                     <p:column headerText="Nome Completo">#{pessoa.nomeCompleto}</p:column>
+                     <p:column headerText="Data de Nascimento">#{pessoa.dataNascimento}</p:column>
+                     <p:column headerText="Ações" style="width: 10em">
+                        <div style="position: relative; width: 100%; text-align: middle">
+                            <p:commandButton icon="fa fa-search" title="Visualizar" action="#{pessoaViewBean.visualizarPessoa(pessoa)}" update="@all" />
+                            <p:commandButton icon="fa fa-pencil" title="Editar" action="#{pessoaViewBean.editarPessoa(pessoa)}" update="@all" />
+                        </div>
+                     </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:outputPanel>
+        
+        <p:outputPanel rendered="#{pessoaViewBean.visualizandoPessoa}">
+            <p:panelGrid columns="2" layout="grid">
+                <f:facet name="header">
+                    <p:commandButton value="Voltar" icon="fa fa-arrow-left" action="#{pessoaViewBean.voltarParaListagemPessoas()}" update="@all" />
+                </f:facet>
+                
+                <p:outputLabel value="Nome completo" />
+                <p:inputText value="#{pessoaViewBean.pessoa.nomeCompleto}" readonly="true" style="width: 100%" />
+                
+                <p:outputLabel value="Data de Nascimento" />
+                <p:calendar value="#{pessoaViewBean.pessoa.dataNascimento}" readonly="true" style="width: 100%" />
+                
+                <f:facet name="footer" style="text-align: center !important">
+                    <center>
+                        <p:commandButton value="Editar" icon="fa fa-pencil" action="#{pessoaViewBean.passarParaEdicaoPessoa()}" update="@all" />
+                    </center>
+                </f:facet>
+            </p:panelGrid>
+        </p:outputPanel>
+        
+        <p:outputPanel rendered="#{pessoaViewBean.editandoPessoa or pessoaViewBean.criandoPessoa}">
+            <p:panel>
+                <f:facet name="header">
+                    <h:outputText value="Editando Pessoa" rendered="#{pessoaViewBean.editandoPessoa}" />
+                    <h:outputText value="Nova Pessoa" rendered="#{pessoaViewBean.criandoPessoa}" />
+                </f:facet>
+                
+                <p:outputLabel value="Nome completo" />
+                <p:inputText value="#{pessoaViewBean.nomeCompleto}" readonly="true" style="width: 100%" />
+                
+                <p:outputLabel value="Data de Nascimento" />
+                <p:calendar value="#{pessoaViewBean.dataNascimento}" readonly="true" style="width: 100%" />
+                
+                <f:facet name="footer">
+                    <center>
+                    <p:commandButton value="Voltar" icon="fa fa-arrow-left" action="#{pessoaViewBean.voltarParaListagemPessoas()}" update="@all" />
+                    <p:commandButton value="Salvar" icon="fa fa-save" action="#{pessoaViewBean.passarParaEdicaoPessoa()}" update="@all" />
+                    </center>
+                </f:facet>
+            </p:panel>
+        </p:outputPanel>
+        
+        <p:outputPanel rendered="#{pessoaViewBean.editandoPerfis}">
+            <p:panelGrid columns="2" layout="grid">
+                <f:facet name="header">
+                    <p:commandButton value="Voltar" icon="fa fa-arrow-left" action="#{pessoaViewBean.voltarParaListagemPessoas()}" update="@all" />
+                </f:facet>
+                
+                <p:outputLabel value="Nome completo" />
+                <p:inputText value="#{pessoaViewBean.pessoa.nomeCompleto}" readonly="true" style="width: 100%" />
+                
+                <p:outputLabel value="Data de Nascimento" />
+                <p:calendar value="#{pessoaViewBean.pessoa.dataNascimento}" readonly="true" style="width: 100%" />
+                
+                <p:outputLabel value="Perfis">
+                <p:dataList value="#{loginViewBean.}">
+                </p:dataList>
+                
+                <f:facet name="footer" style="text-align: center !important">
+                    <center>
+                        <p:commandButton value="Editar" icon="fa fa-pencil" action="#{pessoaViewBean.passarParaEdicaoPessoa()}" update="@all" />
+                    </center>
+                </f:facet>
+            </p:panelGrid>
+        </p:outputPanel>
+        
+    </ui:define>
+    
+</ui:composition>

@@ -22,6 +22,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.flaviolisboa.siaa.negocio.autenticacoes.Autenticacao;
 import com.flaviolisboa.siaa.negocio.logins.Login;
 import com.flaviolisboa.siaa.util.entidades.impl.EntidadeAbstrata;
 import com.flaviolisboa.siaa.util.excecoes.ErroValidacao;
@@ -60,6 +61,9 @@ public class Pessoa extends EntidadeAbstrata<Long> implements Serializable {
 	@OneToMany(mappedBy = "pessoa")
 	private List<Login> logins;
 
+	@OneToMany(mappedBy = "pessoa")
+	private List<Autenticacao> autenticacoes;
+	
     public Pessoa() {
     }
 
@@ -118,4 +122,7 @@ public class Pessoa extends EntidadeAbstrata<Long> implements Serializable {
 		return Collections.unmodifiableList(logins);
 	}
 
+	public List<Autenticacao> getAutenticacoes() {
+		return Collections.unmodifiableList(autenticacoes);
+	}
 }

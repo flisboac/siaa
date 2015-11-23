@@ -1,7 +1,6 @@
 
 package com.flaviolisboa.siaa.util.entidades.impl;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -132,7 +131,7 @@ public class RepositorioJpa<T extends Entidade> implements Repositorio<T> {
     }
     
     @Override
-    public Collection<T> buscarTodos() {
+    public List<T> buscarTodos() {
         EntityManager em = getEntityManager();
         
         try {
